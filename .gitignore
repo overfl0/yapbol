@@ -1,3 +1,7 @@
 *.pbo
 *.pyc
 .idea
+build
+dist
+*.egg-info
+MANIFEST
