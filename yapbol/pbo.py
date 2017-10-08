@@ -11,13 +11,13 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
+from __future__ import print_function
 from __future__ import unicode_literals
 
 import functools
 import hashlib
 import itertools
 import struct
-import sys
 import textwrap
 
 from attribute_proxy import ProxyBehavior
@@ -343,11 +343,11 @@ if __name__ == '__main__':
     file_tested = 'testpbo.pbo'
     f = PBOFile.read_file(file_tested)
 
-    # print f
+    # print(f)
     for entry in f:
         # print entry.filename
-        print entry
+        print(entry)
 
     f.save_file(file_tested + '.repack.pbo')
 
-    print 'Files are identical: {}'.format(_same_hash(file_tested, file_tested + '.repack.pbo'))
+    print('Files are identical: {}'.format(_same_hash(file_tested, file_tested + '.repack.pbo')))
