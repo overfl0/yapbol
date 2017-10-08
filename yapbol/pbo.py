@@ -33,14 +33,15 @@ End header (packing method):
 
 
 def read_asciiz(f):
-    toeof = iter(functools.partial(f.read, 1), '')
-    return ''.join(itertools.takewhile('\0'.__ne__, toeof))
+    # TODO: test me with unicode
+    toeof = iter(functools.partial(f.read, 1), b'')
+    return b''.join(itertools.takewhile(b'\0'.__ne__, toeof)).decode('utf-8')  # Just a guess, test it!
 
 
 def write_asciiz(f, string):
     # TODO: test me with unicode
-    f.write(string)
-    f.write('\0')
+    f.write(string.encode('utf-8'))  # Just a guess, test it!
+    f.write(b'\0')
 
 
 def read_ulong(f):
@@ -107,7 +108,7 @@ class PBOFile(object):
             for pbo_file_entry in self.pbo_files:
                 pbo_file_entry.save_to_file(hashing_file)
 
-            f.write('\0')
+            f.write(b'\0')
             f.write(hashing_file.get_hash())
 
     def add_entry(self, filename, data, packing_method=0, original_size=-1, reserved=0, timestamp=0, data_size=-1):
