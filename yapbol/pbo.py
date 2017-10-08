@@ -31,6 +31,7 @@ End header (packing method):
 0x43707273 == 'Cprs' in  big-endian ('srpC' in little-endian)
 '''
 
+
 def read_asciiz(f):
     toeof = iter(functools.partial(f.read, 1), '')
     return ''.join(itertools.takewhile('\0'.__ne__, toeof))
@@ -74,7 +75,7 @@ class PBOFile(object):
     @staticmethod
     def read_file(filename):
         pbo_file_entries = []
-        with file(filename, 'rb') as f:
+        with open(filename, 'rb') as f:
             pbo_header = PBOHeader.parse_from_file(f)
 
             for header_entry in pbo_header.pbo_entries:
@@ -97,9 +98,8 @@ class PBOFile(object):
 
         return out
 
-
     def save_file(self, filename):
-        with file(filename, 'wb') as f:
+        with open(filename, 'wb') as f:
             hashing_file = HashingFile(f)
 
             self.pbo_header.save_to_file(hashing_file)
@@ -122,7 +122,6 @@ class PBOFile(object):
 
         self.pbo_header.pbo_entries.append(header_entry)
         self.pbo_files.append(file_entry)
-
 
     def __iter__(self):
         for header_entry, file_entry in zip(self.pbo_header.pbo_entries, self.pbo_files):
@@ -310,7 +309,6 @@ class PBOHeaderEntry(object):
         write_ulong(f, self.timestamp)
         write_ulong(f, self.data_size)
 
-
     @staticmethod
     def parse_from_file(f):
         filename = read_asciiz(f)
@@ -330,10 +328,10 @@ def _indent(text, indent=4 * ' '):
 
 
 def _same_hash(file_a, file_b):
-    with file(file_a, 'rb') as pbo_orig:
+    with open(file_a, 'rb') as pbo_orig:
         orig_hash = hashlib.sha1(pbo_orig.read()).digest()
 
-    with file(file_b, 'rb') as pbo_rework:
+    with open(file_b, 'rb') as pbo_rework:
         rework_hash = hashlib.sha1(pbo_rework.read()).digest()
 
     return orig_hash == rework_hash

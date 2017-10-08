@@ -14,6 +14,7 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+
 class ProxyBehavior(object):
     """Proxy class attributes to some other objects.
     Adds a Proxy(...) method that forwards the attribute it is assigned to.
@@ -28,9 +29,8 @@ class ProxyBehavior(object):
             self.filename = 'somefile' # self.header_entry.filename = 'somefile'
     """
 
-
     def __init__(self, *args, **kwargs):
-        super(ProxyBehavior, self).__init__(*args, **kwargs)
+        super(ProxyBehavior, self).__init__()
         object.__setattr__(self, '_proxy_objects', {})
 
     def _register_proxy(self, attribute, *proxies):
