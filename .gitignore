@@ -1,4 +1,5 @@
 *.pbo
+!test/resources/*.pbo
 *.pyc
 .idea
 build

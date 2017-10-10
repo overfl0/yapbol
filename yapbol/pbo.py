@@ -20,7 +20,7 @@ import itertools
 import struct
 import textwrap
 
-from attribute_proxy import ProxyBehavior
+from .attribute_proxy import ProxyBehavior
 
 ''' Notes:
 https://community.bistudio.com/wiki/PBO_File_Format
@@ -33,14 +33,22 @@ End header (packing method):
 
 
 def read_asciiz(f):
-    # TODO: test me with unicode
     toeof = iter(functools.partial(f.read, 1), b'')
-    return b''.join(itertools.takewhile(b'\0'.__ne__, toeof)).decode('utf-8')  # Just a guess, test it!
+    bytestring =  b''.join(itertools.takewhile(b'\0'.__ne__, toeof))
+
+    try:
+        return bytestring.decode('utf-8')
+
+    except UnicodeDecodeError:
+        return bytestring
 
 
 def write_asciiz(f, string):
-    # TODO: test me with unicode
-    f.write(string.encode('utf-8'))  # Just a guess, test it!
+    if isinstance(string, str):
+        f.write(string)  # Write directly
+    else:
+        f.write(string.encode('utf-8'))
+
     f.write(b'\0')
 
 
