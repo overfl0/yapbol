@@ -66,6 +66,29 @@ class YapbolTestCase(unittest.TestCase):
 
         self.assertEqual(counter, len(files))
 
+    def test_getfile_int(self):
+        f = yapbol.PBOFile.read_file(get_resource('DFL_HillMission.Malden.pbo'))
+        self.assertEqual(f[0].filename, 'cfg\\cfgBaseSettings.hpp')
+        self.assertEqual(f[5].filename, 'description.ext')
+        self.assertEqual(f[-1].filename, 'ui\\media\\rally_ca.paa')
+        with self.assertRaises(IndexError):
+            f[150]
+
+    def test_getfile_string(self):
+        f = yapbol.PBOFile.read_file(get_resource('DFL_HillMission.Malden.pbo'))
+
+        self.assertEqual(f['description.ext'].filename, 'description.ext')
+        with self.assertRaises(KeyError):
+            f['something_not_present']
+
+    def test_getfile_specialchars_utf(self):
+        f = yapbol.PBOFile.read_file(get_resource('zolc_utf.pbo'))
+        self.assertEqual(f['test.Malden/żółć.hpp'].filename, 'test.Malden/żółć.hpp')
+
+    def test_getfile_specialchars_bytesting(self):
+        f = yapbol.PBOFile.read_file(get_resource('zolc_addonbuilder.pbo'))
+        self.assertEqual(f[b'z\xf3lc.txt'].filename, b'z\xf3lc.txt')
+
     def test_zolc_utf8(self):
         f = yapbol.PBOFile.read_file(get_resource('zolc_utf.pbo'))
         files = (

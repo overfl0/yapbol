@@ -20,6 +20,8 @@ import itertools
 import struct
 import textwrap
 
+import six
+
 from .attribute_proxy import ProxyBehavior
 
 ''' Notes:
@@ -142,6 +144,14 @@ class PBOFile(object):
 
         elif isinstance(key, slice):
             return (PBOFileEntryView(h, f) for h, f in zip(self.pbo_header.pbo_entries[key], self.pbo_files[key]))
+
+        elif isinstance(key, six.text_type) or isinstance(key, six.binary_type):
+            # Yes, I know it's inefficient. Submit a PR :P
+            for entry in self:
+                if entry.filename == key:
+                    return entry
+
+            raise KeyError('No such file')
 
         else:
             raise TypeError('Invalid __getitem__ type')
