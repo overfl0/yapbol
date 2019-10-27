@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='yapbol',
-    version='0.1.dev',
+    version='0.1',
     packages=['yapbol',],
     license='GNU Public License v3',
     description='Yet Another PBO Library',
@@ -26,6 +26,8 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     install_requires=['six'],
     keywords='arma pbo',
