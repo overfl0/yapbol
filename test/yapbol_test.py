@@ -23,7 +23,6 @@ def get_resource(filename):
     return os.path.join(os.path.dirname(__file__), 'resources', filename)
 
 
-
 class YapbolTestCase(unittest.TestCase):
     def setUp(self):
         pass
@@ -62,7 +61,7 @@ class YapbolTestCase(unittest.TestCase):
         counter = 0
         for entry in f:
             self.assertIn(entry.filename, files)
-            counter +=1
+            counter += 1
 
         self.assertEqual(counter, len(files))
 
