@@ -46,11 +46,7 @@ def read_asciiz(f):
 
 
 def write_asciiz(f, string):
-    if isinstance(string, str):
-        f.write(string)  # Write directly
-    else:
-        f.write(string.encode('utf-8'))
-
+    f.write(six.ensure_binary(string))
     f.write(b'\0')
 
 
